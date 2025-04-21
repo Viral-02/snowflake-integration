@@ -1,0 +1,38 @@
+name: Snowflake Git Sync
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  snowcli-sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Install Snowflake CLI
+        run: |
+          pip install snowflake-cli-labs
+
+      - name: Configure Snowflake credentials
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PWD: ${{ secrets.SNOWFLAKE_PWD }}
+        run: |
+          snow config init --non-interactive \
+            --account $SNOWFLAKE_ACCOUNT \
+            --user $SNOWFLAKE_USER \
+            --password $SNOWFLAKE_PWD
+
+      - name: Run Snowflake Git Function
+        run: |
+          snow git fetch
