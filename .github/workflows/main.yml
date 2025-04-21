@@ -28,11 +28,8 @@ jobs:
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PWD: ${{ secrets.SNOWFLAKE_PWD }}
         run: |
-          snow config init --non-interactive \
-            --account $SNOWFLAKE_ACCOUNT \
-            --user $SNOWFLAKE_USER \
-            --password $SNOWFLAKE_PWD
+          snow --version
 
       - name: Run Snowflake Git Function
         run: |
-          snow git fetch
+          snow git fetch SNOWFLAKE_EXTENSIONS
