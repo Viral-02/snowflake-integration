@@ -1,0 +1,1 @@
+LS @SNOWFLAKE_EXTENSIONS/branches/main;
